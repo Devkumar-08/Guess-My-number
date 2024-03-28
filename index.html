@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="css/text" href="./CSS/Guess My No.css">
+    <title>Guess My-Number</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital@1&family=Press+Start+2P&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Press Start 2P';
+        }
+
+        body {
+            background-color: black;
+            color: white;
+        }
+
+        header,
+        div {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header div .again {
+            font-size: 50px;
+            margin: 30px;
+            padding: 20px;
+        }
+
+        header div p {
+            font-size: 50px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 50px;
+        }
+
+        header {
+            border-bottom: 10px solid white;
+        }
+
+        .number {
+            font-size: 70px;
+            background-color: red;
+            width: 9cap;
+            padding: 20px;
+            position: relative;
+            left: 40%;
+            top: 60px;
+            justify-content: center;
+        }
+
+        main {
+            margin-top: 200px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .guess {
+            padding: 20px;
+            width: 180px;
+            font-size: 50px;
+            background-color: black;
+            color: white;
+            border: 1px solid white;
+            text-align: center;
+            display: block;
+        }
+
+        .checkBtn {
+            font-size: 30px;
+            padding: 10px;
+            margin-top: 40px;
+            margin-left: 10px;
+        }
+
+        .message {
+            font-size: 30px;
+            margin-bottom: 30px;
+            margin-top: 20px;
+        }
+
+        .label-score {
+            font-size: 30px;
+            margin-bottom: 30px;
+        }
+
+        .label-highscore {
+            font-size: 30px;
+            margin-bottom: 35px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+
+        <div>
+            <button class="again">Again!</button>
+            <p>(Between 1 and 20)</p>
+        </div>
+
+        <h1>Guess My Number!</h1>
+        <div class="number">?</div>
+
+    </header>
+    <main>
+
+        <section class="left">
+            <input type="number" name="guess" id="guess" class="guess">
+            <button class="CheckBtn">Check!</button>
+        </section>
+
+        <section class="right">
+            <p class="message">Start Guessing...</p>
+            <p class="label-score">Score: <span id="Score">20</span></p>
+            <p class="label-highscore">Highscore: <span id="highscore">0</span></p>
+        </section>
+    </main>
+
+    <!--JS-->
+    <script>
+        //creating a secret number:
+        let secretNumber = Math.trunc(Math.random() * 20 + 1);
+        console.log(secretNumber);
+
+        let Score = 20;
+        let highscore = 0;
+
+        //Logic:
+        document.getElementById("checkBtn").addEventListener("click", () => {
+
+            const guessedNo = Number(document.getElementById("guess").value);
+
+
+            //if there is no input:
+            if (!guessedNo) {
+                document.querySelector(".message").textContent = "No Number!"
+            }
+
+            //when player wins:
+            else if (guessedNo === secretNumber) {
+                document.querySelector(".message").textContent = "correct Number"
+                document.querySelector(".number").textContent = secretNumber;
+
+                document.querySelector("body").style.backgroundColor = "green";
+            
+                //for Highscore:
+                if (score>highscore) {
+                    highscore = score;
+                    document.getElementById("highscore").textContent=highscore;
+                }
+            
+            }
+            //when the guess is too high:
+            else if (guessedNo > secretNumber) {
+                if (score > 1) {
+                    document.querySelector(".message").textContent = "Too High!";
+                    score = score - 1;
+                    document.getElementById("score").textContent = score;
+                } else {
+                    document.querySelector(".message").textContent = "You lost the game!";
+                    document.getElementById("score").textContent = 0;
+                }
+            }
+
+            //when the guess is too low:
+            else if (guessedNo < secretNumber) {
+                if (score > 1) {
+                    document.querySelector(".message").textContent = "Too low";
+                    score = score - 1;
+                    document.getElementById("score").textContent = score;
+                } else {
+                    document.querySelector(".message").textContent = "You lost the game!";
+                    document.getElementById('score').textContent = 0;
+                    document.querySelector("body").style.backgroundColor = "red";
+                }
+            }
+
+        });
+
+        //for again button:
+        document.querySelector(".again").addEventListener("click",()=>{
+            score=20;
+            secretNumber=(Math.random()*20+1);
+            console.log(secretNumber);
+
+            document.querySelector(".message").textContent="Start guessing....";
+            document.getElementById('score').textContent=score;
+            document.querySelector(".number").textContent="?";
+            document.getElementById("guess").value="";
+
+            document.querySelector("body").style.backgroundColor="black";
+        })
+    </script>
+</body>
+
+</html>
